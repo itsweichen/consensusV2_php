@@ -606,7 +606,6 @@ $str = $str."]";
 
                         d3.selectAll(".bar").classed("faded", true);
                         d3.selectAll(".handler").classed("faded", true);
-                        d3.selectAll(".checkbox1").classed("faded", true);
                         d3.selectAll(".score_variance").classed("faded", true);
                         var a = d.id[0], b = d.id[1], id ="#a" + a.toString();
                         d3.select(id).classed("faded", false);
@@ -832,7 +831,6 @@ $str = $str."]";
                         d3.select(".voter_panel").select("rect").style("filter", undefined);
                         d3.selectAll(".bar").classed("faded", false);
                         d3.selectAll(".handler").classed("faded", false);
-                        d3.selectAll(".checkbox1").classed("faded", false);
                         d3.selectAll(".score_variance").classed("faded", false);
                         d3.selectAll(".voter_panel").remove();
                         d3.selectAll(".legend").attr("opacity", 1);
@@ -1083,7 +1081,7 @@ $str = $str."]";
                   var score_variance_image = d3.select('body')
                         .select("#main_panel")
                         .append("g")
-                        .attr("transform", "translate(" + (title_width + rect_width + 50) + "," + 55 + ")")
+                        .attr("transform", "translate(" + (title_width + rect_width + 50) + "," + 105 + ")")
                         .classed("side_panel", true)
                         .classed("score_variance", true)
                         ;
@@ -1102,7 +1100,7 @@ $str = $str."]";
                         .attr("x", 0)
                         .attr("y", function(d, i){ return candid_num * legend_height + legend_padding * 4 + 20;})
                         .text("Score variance");
-                        
+
                     /* checkbox */
                     var check_box = d3
                         .select("body")
@@ -1177,7 +1175,7 @@ $str = $str."]";
                         .classed("side_panel", true)
                         .style("position", "absolute")
                         .style("left", (885).toString() + "px")
-                        .style("top", function() { return (200 + legend_height * candidate_num).toString() + "px";})
+                        .style("top", function() { return (230 + legend_height * candidate_num).toString() + "px";})
                         .append('input')
                         .attr('type','checkbox')
                         .property("checked", false);
@@ -1454,6 +1452,7 @@ $str = $str."]";
 
                 }
 
+           
 
 //sijia's part ********************************************************************************************************
 
@@ -1516,6 +1515,11 @@ $str = $str."]";
 
             }
         }
+
+
+
+
+
     }
 
 
@@ -1523,68 +1527,50 @@ $str = $str."]";
 
 
     function calculateConflict(){
-        var criteria_id = 0;
-        var candidate_id = 0;
-        var user_id = 0;
+        var conflict_max = 0;
 
-        var data = 0.00;
-        var avg = 0.00;
-        var max = 0.00;
+        for(var i = 0; i<=criteria_num; i++){
+            for(var j = 0; j<=candidate_num; j++){
+                var conflict_val = 0;
 
-        for(criteria_id = 0; criteria_id<=criteria_num; criteria_id++){
-            for(candidate_id = 0; candidate_id<=candidate_num; candidate_id++){
-                var temp = 0.00;
-                data = 0.00;
-                avg = 0.00;
-
-                for(user_id = 1; user_id<=user_num; user_id++){
-
-                    data = parseFloat(score[criteria_id][candidate_id][user_id]);
-                    avg = parseFloat(overall[criteria_id][candidate_id]);
-
-
-                    temp = temp + (data - avg) * (data - avg);
-
-
+                for(var k = 2; k<=user_num; k++){
+                    conflict_val = conflict_val + Math.abs(parseFloat(score[i][j][k]) - parseFloat(score[i][j][1]));
                 }
-                temp = temp/user_num;
 
-                conflict[criteria_id][candidate_id] = temp;
+                conflict_val = conflict_val / (user_num - 1);
+                conflict[i][j] = conflict_val;
 
+                if(conflict_val > conflict_max)
+                    conflict_max = conflict_val;
             }
         }
-//        var sum = 0.00;
-//
-//        for(criteria_id = 0; criteria_id<=3; criteria_id++) {
-//            for (candidate_id = 1; candidate_id <= 3; candidate_id++) {
-//
-//                    sum = sum + conflict[criteria_id][candidate_id];
-//            }
-//        }
-//
-//
-//        for(criteria_id = 0; criteria_id<=3; criteria_id++) {
-//            for (candidate_id = 1; candidate_id <= 3; candidate_id++) {
-//                conflict[criteria_id][candidate_id] = conflict[criteria_id][candidate_id] * 10/ sum;
-//            }
-//        }
 
-        for(criteria_id = 0; criteria_id<=criteria_num; criteria_id++) {
-            for (candidate_id = 1; candidate_id <= candidate_num; candidate_id++) {
-                if(conflict[criteria_id][candidate_id] > max){
-                    max = conflict[criteria_id][candidate_id];
+
+        for(i = 0; i<=criteria_num; i++) {
+            for (j = 1; j <= candidate_num; j++) {
+                conflict[i][j] = conflict[i][j] / conflict_max;
+            }
+        }
+
+
+                var str_score = "";
+                for(i = 0; i<= criteria_num; i++)
+                    for(j = 1; j <= candidate_num; j++){
+                        for(k = 1; k <= user_num; k++){
+                            str_score += score[i][j][k].toString() + " ";
+                        }
+                        str_score += "\n";
+                    }
+//                console.log(str_score);
+
+                var str_conflict = "";
+                for(i = 0; i<= criteria_num; i++){
+                    for(j = 1; j <= candidate_num; j++){
+                        str_conflict += conflict[i][j] + " ";
+                    }
+                    str_conflict += "\n";
                 }
-            }
-        }
-
-        for(criteria_id = 0; criteria_id<=criteria_num; criteria_id++) {
-            for (candidate_id = 1; candidate_id <= candidate_num; candidate_id++) {
-                conflict[criteria_id][candidate_id] = conflict[criteria_id][candidate_id] / max;
-            }
-        }
-
-
-
+//                console.log(str_conflict);
 
 
     }
