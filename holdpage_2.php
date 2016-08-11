@@ -124,11 +124,22 @@ $user_name = $row['user_name'];
                         Next
                     </button>
                     <?php
-                }else{
+                }
+
+                if($type == 1){
                     ?>
                     <button onclick="location='none.php?decision_id=<?php echo $_GET['decision_id']?>&user_id=<?php echo $_GET['user_id'];?>'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                         Next
                     </button>
+                    <?php
+                }
+
+                if($type== 2){
+                    ?>
+<button onclick="location='overallll.php?decision_id=<?php echo $_GET['decision_id']?>&user_id=<?php echo $_GET['user_id'];?>'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        Next
+                    </button>
+
                     <?php
                 }
 
