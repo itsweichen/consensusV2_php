@@ -606,6 +606,8 @@ $str = $str."]";
 
                         d3.selectAll(".bar").classed("faded", true);
                         d3.selectAll(".handler").classed("faded", true);
+                        d3.selectAll(".checkbox1").classed("faded", true);
+                        d3.selectAll(".score_variance").classed("faded", true);
                         var a = d.id[0], b = d.id[1], id ="#a" + a.toString();
                         d3.select(id).classed("faded", false);
 
@@ -615,7 +617,7 @@ $str = $str."]";
                             score_bar[i] = voter[a][b][i];
                         }
 
-                        var voter_circle =
+                                               var voter_circle =
                                 g
                                     .append("g")
                                     .classed("voter_panel", true)
@@ -640,14 +642,10 @@ $str = $str."]";
 //enable drag
 
 
-                        var drag = d3.behavior.drag()
-                            .origin(Object)
-                            .on("dragstart", dragStart)
-                            .on("drag", dragMove)
-                            .on('dragend', dragEnd);
+                        
 
-
-                        var voter_who = <?php echo $_GET['user_id'];?>;
+//php voter_who
+                        var voter_who = 1;
                         var str = "#b" + a.toString() + b.toString() + voter_who.toString();
 
 
@@ -659,7 +657,7 @@ $str = $str."]";
 
                         voter_circle
                             .append("circle")
-                            .attr("r", 10)
+                            .attr("r", 7)
                             .attr("cx", function(d, i) {
                                 return d.x = title_width + padding_x + rect_width / 10 * score_bar[i + 1]; })
                             .attr("cy", function(d, i) { return d.y = padding_y * (+a + 1); })
@@ -679,8 +677,20 @@ $str = $str."]";
                                         })
                                         .attr("opacity", 1);
                                 }
+                                else{
+                                    d3.select(this)
+                                    .append("text")
+                                    .attr("class", "voter_name_1")
+                                    .text(function(d) {
+                                        return d.name;})
+                                    .style("text-anchor", "end")
+                                    .attr("transform", function(d, i){
+                                        return "translate(" + d.x + "," + (d.y + r + 4) + ") rotate(-40)";
+                                    });
+                                }
                             })
                             .on("mouseout", function(d){
+                                d3.select(".voter_name_1").remove();
 
                                 this.parentNode.insertBefore(this, refNode1);
                                 refNode1 = this;
@@ -715,9 +725,7 @@ $str = $str."]";
 
 
                         if(str[2] != 0){
-                            d3.select(str).call(drag);
-                            // d3.selectAll(str).select("circle")
-                            // .attr("stroke", color[+b - 1]).attr("stroke-width", "2");
+
                             d3.select(".voter_panel")
                                 .append("circle")
                                 .attr("r", 2)
@@ -743,7 +751,7 @@ $str = $str."]";
                         ;
 //text: voter_name
 
-                        voter_circle
+                        d3.select(str)
                             .append("text")
                             .attr("class", "voter_name")
                             .text(function(d) {return d.name;})
@@ -806,175 +814,8 @@ $str = $str."]";
 
                             })
                         ;
-// //button2
-//                         var button2 = d3.select(".voter_panel")
-//                             .append("g")
-//                             .attr("id", "r2")
-//                             .attr("class", "button2")
-//                             .style("visibility", "hidden")
-//                             ;
 
-//                         button2
-//                             .append("rect")
-//                             .attr("height", 20)
-//                             .attr("width", 50)
-//                             .attr("stroke-width", 1)
-//                             .attr("stroke", "grey")
-//                             .attr("fill", "grey")
-//                             .style("filter", "url(#drop-shadow)")
-//                             .style("border-radius", "100px")
-//                             .attr("x", function(d){ return title_width + padding_x + rect_width + padding_x;})
-//                             .attr("y", function(d) {return padding_y * (+a + 1)-10;})
-//                             .attr("rx", "3px")
-//                             .attr("ry", "3px")
-//                         ;
-
-//                         button2
-//                             .append("text")
-//                             .attr("x", function(d){ return title_width + padding_x + rect_width + padding_x + 25;})
-//                             .attr("y", function(d) {return padding_y * (+a + 1) + 6;})
-//                             .text("Undo")
-//                             .style("text-anchor", "middle")
-//                             .style("font-family", "Sans-serif")
-//                             .style("fill", "white")
-//                             .style("font-size", "15px")
-//                             .on("mousedown", Undo)
-//                             .on("mouseover", function(d){
-//                                 d3.select(this).style("fill", "grey");
-//                                 d3.select("#r2").select("rect").attr("fill", "white");
-//                             })
-//                             .on("mouseout", function(d){
-//                                 d3.select(this).style("fill", "white");
-//                                 d3.select("#r2").select("rect").attr("fill", "grey");
-
-//                             })
-//                         ;
-
-
-                        var button3 = d3.select(".voter_panel")
-                            .append("g")
-                            .attr("id", "r3");
-
-
-                        button3
-                            .append("rect")
-                            .attr("height", 20)
-                            .attr("width", 50)
-                            .attr("stroke-width", 1)
-                            .attr("stroke", "grey")
-                            .attr("fill", "grey")
-                            .style("filter", "url(#drop-shadow)")
-                            .style("border-radius", "100px")
-                            .attr("x", function(d){ return title_width + padding_x + rect_width + padding_x + 5;})
-                            .attr("y", function(d) {return padding_y * (+a + 1) - 10;})
-                            .attr("rx", "3px")
-                            .attr("ry", "3px")
-                        ;
-
-                        button3
-                            .append("text")
-                            .attr("x", function(d){ return title_width + padding_x + rect_width + padding_x + 25 + 5;})
-                            .attr("y", function(d) {return padding_y * (+a + 1) + 6;})
-                            .text("Cancel")
-                            .style("text-anchor", "middle")
-                            .style("font-family", "Sans-serif")
-                            .style("fill", "white")
-                            .style("font-size", "15px")
-                            .on("mousedown", function(d){
-                                Undo();
-                                recover1();
-
-                            })
-                            .on("mouseover", function(d){
-                                d3.select(this).style("fill", "grey");
-                                d3.select("#r3").select("rect").attr("fill", "white");
-                            })
-                            .on("mouseout", function(d){
-                                d3.select(this).style("fill", "white");
-                                d3.select("#r3").select("rect").attr("fill", "grey");
-
-                            })
-                        ;
-
-
-                        function Undo(){
-                            if(window.obj == null) return;
-
-                            var x1 = parseInt(d3.select("#voter_original_vote").attr("cx"));
-                            var y1 = parseInt(d3.select("#voter_original_vote").attr("cy"));
-                            window.obj.x = x1;
-                            window.obj.y = y1;
-
-                            var d = window.obj;
-                            d3.select(str).select("circle").attr("cx", d.x).attr("opacity", 1);
-
-                            d3.select(str)
-                                .select(".voter_name")
-                                .attr("transform", function(d){
-                                    return "translate(" + d.x + "," + (d.y + r + 4) + ") rotate(-40)";
-
-                                });
-                            d3.select(str)
-                                .select(".voter_score")
-                                .attr("x", function(d) { return d.x;})
-                                .attr("y", function(d) { return d.y - 10;})
-                                .text("");
-
-                            d3.select(str)
-                                .select(".float_path")
-                                .attr("d", function(d){
-                                    return "M" + d.x.toString() + " " + d.y.toString() + "L " + d.x.toString() + " " + d.y.toString();
-                                });
-
-                            var voter_id = d3.select(str).attr("id");
-                            var score_num = d3.round((d.x - title_width - padding_x) /rect_width * 10, 10);
-
-                            score[voter_id[1]][voter_id[2]][voter_id[3]] = score_num;
-                            calculateAvg();
-                            calculateConflict();
-
-                            var conflict_level = conflict[voter_id[1]][voter_id[2]];
-                            var overall_score = overall[voter_id[1]][voter_id[2]];
-                            var x = title_width + padding_x + overall_score * rect_width / 10;
-
-
-                            var candid_id = "#a" + voter_id[1].toString() + voter_id[2].toString();
-
-
-                            d3.select(candid_id).select("circle").attr("cx", x);
-
-                            d3.select(candid_id).select(".lower-path")
-                                .attr("d", function(d){
-                                    var y = padding_y * (d.row + 1) + conflict_level/2 * path_max_length;
-                                    return "M " + (x - r/2).toString() + " " + y.toString() +
-                                        "L " + (x + r/2).toString() + " " + y.toString();
-                                });
-
-                            d3.select(str)
-                                .select(".float_path")
-                                .attr("d", function(d){
-                                    return "M" + d.x.toString() + " " + d.y.toString() + "L " + d.x.toString() + " " + d.y.toString();
-                                });
-
-                            d3.select(candid_id).select(".upper-path")
-                                .attr("d", function(d){
-                                    var y = padding_y * (d.row + 1) - conflict_level/2 * path_max_length;
-                                    return "M " + (x - r/2).toString() + " " + y.toString() +
-                                        "L " + (x + r/2).toString() + " " + y.toString();
-                                });
-
-                            d3.select(candid_id).select(".middle-path")
-                                .attr("d", function(d){
-                                    var y = padding_y * (d.row + 1);
-                                    return "M " + x.toString() + " " + (y - conflict_level/2 * path_max_length).toString() +
-                                        "L " + x.toString() + " " + (y + conflict_level/2 * path_max_length).toString();
-                                });
-
-
-
-                            save();
-                        }
-
+       
                         d3.selectAll(".legend").attr("opacity", function(d, i){
                             if((i+1)!=b)
                                 return 0.07;
@@ -991,6 +832,8 @@ $str = $str."]";
                         d3.select(".voter_panel").select("rect").style("filter", undefined);
                         d3.selectAll(".bar").classed("faded", false);
                         d3.selectAll(".handler").classed("faded", false);
+                        d3.selectAll(".checkbox1").classed("faded", false);
+                        d3.selectAll(".score_variance").classed("faded", false);
                         d3.selectAll(".voter_panel").remove();
                         d3.selectAll(".legend").attr("opacity", 1);
                         d3.selectAll(".checkbox").style("visibility", "visible");
@@ -1237,19 +1080,29 @@ $str = $str."]";
                             return i * legend_height + 5;})
                         .text(function(d) { return d.candid; });
 
-                    legend
+                  var score_variance_image = d3.select('body')
+                        .select("#main_panel")
+                        .append("g")
+                        .attr("transform", "translate(" + (title_width + rect_width + 50) + "," + 55 + ")")
+                        .classed("side_panel", true)
+                        .classed("score_variance", true)
+                        ;
+
+
+                        score_variance_image
                         .append("image")
                         .attr('x',function(d){ return -17;})
-                        .attr('y',function(d){ return candid_num * legend_height + legend_padding * 4 ;})
+                        .attr('y',function(d){ return candid_num * legend_height + legend_padding * 4 -10;})
                         .attr('width', 20)
                         .attr('height', 50)
                         .attr("xlink:href","score_variance.png");
 
-                    legend
+                    score_variance_image
                         .append("text")
                         .attr("x", 0)
-                        .attr("y", function(d, i){ return candid_num * legend_height + legend_padding * 4 + 30;})
+                        .attr("y", function(d, i){ return candid_num * legend_height + legend_padding * 4 + 20;})
                         .text("Score variance");
+                        
                     /* checkbox */
                     var check_box = d3
                         .select("body")
