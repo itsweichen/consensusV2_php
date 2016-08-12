@@ -85,10 +85,11 @@ $user_name = $row['user_name'];
     <b>
         Group Page for <?php echo $user_name;?>
     </b><br>
-    This is an average of everyone's votes, come to a consensus on the best candidate.<br>
-    The Score Variance (red bars) indicate the amount of disagreement.
+    This is an average of everyone's score.<br>
+    "Difference between committee and you” indicates the amount of disagreement between you and other voters.
     <br>
-    Click on the dots to see others' votes and to change your vote; Hover over voters to see more details.<br>
+    Click on the dots to see others' votes. Hover over voters to see their score and arguments.<br>
+    Your task is to answer the questions below the visualization.
 </p>
 <svg id="left_side_panel"></svg>
 <svg id="main_panel"></svg>
@@ -425,7 +426,7 @@ $str = $str."]";
 
                     svg.append("text")
                         .text("Candidates")
-                        .attr("transform", "translate(600, 50)");
+                        .attr("transform", "translate(590, 50)");
 
 
 
@@ -433,7 +434,7 @@ $str = $str."]";
                         .attr("height", height)
                         .attr("width", width);
 
-                    var data1 = [{rect:0, name:"Overall"},{rect:1, name:"Academic"},{rect:2, name:"Extracurricular"},{rect:3, name:"Recommendation Letter"},{rect:4, name:"Fit"}];
+                    var data1 = [{rect:0, name:"Overall"},{rect:1, name:"Academic"},{rect:2, name:"Activities"},{rect:3, name:"Recommendation Letter"},{rect:4, name:"Readiness for Engineering"}];
 
 
 
@@ -456,6 +457,7 @@ $str = $str."]";
                         .append("text")
                         .attr("x", title_width)
                         .attr("y", function(d){return (d.rect + 1) * padding_y + 5})
+                        .style("font-size", "12px")
                         .attr("text-anchor", "end")
                         .text(function(d){return d.name;});
                     rect
@@ -606,6 +608,7 @@ $str = $str."]";
 
                         d3.selectAll(".bar").classed("faded", true);
                         d3.selectAll(".handler").classed("faded", true);
+                        d3.selectAll(".checkbox1").classed("faded", true);
                         d3.selectAll(".score_variance").classed("faded", true);
                         var a = d.id[0], b = d.id[1], id ="#a" + a.toString();
                         d3.select(id).classed("faded", false);
@@ -668,6 +671,14 @@ $str = $str."]";
                         d3.selectAll(".voter_dot")
                             .on("mouseover", function(d){
 
+                            d3.select("body").append("div")
+                                .classed("argument", true)
+                                .style("position", "absolute")
+                                .style("width", "300px")
+                                .style("left", 910 + "px")
+                                .style("top", 170 + "px")
+                                .html(argu[d.code]);
+
                                 if(this.id[3] == str[4]){
                                     d3.select(this).select("circle")
                                         .attr("stroke-width", "2px")
@@ -690,6 +701,8 @@ $str = $str."]";
                             })
                             .on("mouseout", function(d){
                                 d3.select(".voter_name_1").remove();
+
+                                d3.select(".argument").remove();
 
                                 this.parentNode.insertBefore(this, refNode1);
                                 refNode1 = this;
@@ -781,13 +794,13 @@ $str = $str."]";
                         button1
                             .append("rect")
                             .attr("height", 20)
-                            .attr("width", 50)
+                            .attr("width", 20)
                             .attr("stroke-width", 1)
                             .attr("stroke", "grey")
                             .attr("fill", "grey")
                             .style("filter", "url(#drop-shadow)")
                             .style("border-radius", "100px")
-                            .attr("x", function(d){ return title_width + padding_x + rect_width + padding_x + 60 + 5;})
+                            .attr("x", function(d){ return title_width + padding_x + rect_width + padding_x;})
                             .attr("y", function(d) {return padding_y * (+a + 1) - 10;})
                             .attr("rx", "3px")
                             .attr("ry", "3px")
@@ -795,13 +808,13 @@ $str = $str."]";
 
                         button1
                             .append("text")
-                            .attr("x", function(d){ return title_width + padding_x + rect_width + padding_x + 60 + 25 + 5;})
-                            .attr("y", function(d) {return padding_y * (+a + 1) + 6;})
-                            .text("Confirm")
+                            .attr("x", function(d){ return title_width + padding_x + rect_width + padding_x + 10;})
+                            .attr("y", function(d) {return padding_y * (+a + 1) + 7;})
+                            .text("X")
+                            .style("font-size", "18px")
                             .style("text-anchor", "middle")
                             .style("font-family", "Sans-serif")
                             .style("fill", "white")
-                            .style("font-size", "15px")
                             .on("mousedown", recover1)
                             .on("mouseover", function(d){
                                 d3.select(this).style("fill", "grey");
@@ -831,6 +844,7 @@ $str = $str."]";
                         d3.select(".voter_panel").select("rect").style("filter", undefined);
                         d3.selectAll(".bar").classed("faded", false);
                         d3.selectAll(".handler").classed("faded", false);
+                        d3.selectAll(".checkbox1").classed("faded", false);
                         d3.selectAll(".score_variance").classed("faded", false);
                         d3.selectAll(".voter_panel").remove();
                         d3.selectAll(".legend").attr("opacity", 1);
@@ -1089,7 +1103,7 @@ $str = $str."]";
 
                         score_variance_image
                         .append("image")
-                        .attr('x',function(d){ return -17;})
+                        .attr('x',function(d){ return -12;})
                         .attr('y',function(d){ return candid_num * legend_height + legend_padding * 4 -10;})
                         .attr('width', 20)
                         .attr('height', 50)
@@ -1097,9 +1111,21 @@ $str = $str."]";
 
                     score_variance_image
                         .append("text")
-                        .attr("x", 0)
+                        .attr("x", 5)
+                        .attr("y", function(d, i){ return candid_num * legend_height + legend_padding * 4 + 8;})
+                        .text("Difference");
+                    score_variance_image
+                        .append("text")
+                        .attr("x", 5)
                         .attr("y", function(d, i){ return candid_num * legend_height + legend_padding * 4 + 20;})
-                        .text("Score variance");
+                        .text("between");
+                    score_variance_image
+                        .append("text")
+                        .attr("x", 5)
+                        .attr("y", function(d, i){ return candid_num * legend_height + legend_padding * 4 + 32;})
+                        .text("committee and you");
+
+
 
                     /* checkbox */
                     var check_box = d3
@@ -1112,9 +1138,9 @@ $str = $str."]";
                         .append("div")
                         .classed("side_panel", true)
                         .style("position", "absolute")
-                        .style("left", 885 +"px")
+                        .style("left", 800 +"px")
                         .style("top", function(d, i) {
-                            return  (168 +  legend_height * i).toString() + "px";})
+                            return  (191 +  legend_height * i).toString() + "px";})
                         .append('input')
                         .attr("type", "checkbox")
                         .property("checked", true)
@@ -1174,7 +1200,7 @@ $str = $str."]";
                         .classed("checkbox1", true)
                         .classed("side_panel", true)
                         .style("position", "absolute")
-                        .style("left", (885).toString() + "px")
+                        .style("left", (800).toString() + "px")
                         .style("top", function() { return (230 + legend_height * candidate_num).toString() + "px";})
                         .append('input')
                         .attr('type','checkbox')
@@ -1202,12 +1228,14 @@ $str = $str."]";
                     var left_padding_y = 20;
                     var svg1 = d3.select("body")
                         .select("#left_side_panel")
-                        .attr("width", 300)
+                        .attr("width", 210)
                         .attr("height", height);
                     svg1
                         .append("text")
                         .text("Voters")
-                        .attr("transform", "translate(" + left_padding_x + ", 50)");
+                        .style("text-anchor", "middle")
+                        .attr("transform", "translate(" + (left_padding_x + 25) + ", 50)");
+                    
                     var voter_list_all =
                         svg1
                             .append("g")
@@ -1215,19 +1243,15 @@ $str = $str."]";
 
                     voter_list_all
                         .append("rect")
-                        .attr("x", left_padding_x)
+                        .attr("x", left_padding_x + 25 - 15)
                         .attr("y", function(d, i){
                             return 63;
                         })
                         .attr("height", 20)
-                        .attr("width", 50)
-                        .attr("stroke-width", 1)
-                        .attr("stroke", "grey")
+                        .attr("width", 30)
                         .attr("fill", "grey")
-                        .style("filter", "url(#drop-shadow)")
                         .style("border-radius", "100px")
                     ;
-
                     voter_list_all
                         .append("text")
                         .attr("x", function(d){ return  left_padding_x + 25;})
@@ -1242,6 +1266,9 @@ $str = $str."]";
                         .style("fill", "White")
                         .style("font-size", "15px");
 
+               
+
+
                     var voter_list =
                             svg1
                                 .append("g")
@@ -1253,18 +1280,22 @@ $str = $str."]";
                                     return "v" + (i + 1).toString();
                                 })
                         ;
+
+
+
                     voter_list
                         .append("rect")
-                        .attr("x", left_padding_x)
+                        .attr("x", function(d){
+                            return left_padding_x + 25 - d.name.length * 10 / 2;
+                        })
                         .attr("y", function(d, i){
                             return 63 + left_padding_y * (i + 1);
                         })
                         .attr("height", left_padding_y)
-                        .attr("width", 50)
-                        .attr("stroke-width", 1)
-                        .attr("stroke", "grey")
+                        .attr("width", function(d){
+                            return d.name.length * 10;
+                        })
                         .attr("fill", "white")
-                        .style("filter", "url(#drop-shadow)")
                         .style("border-radius", "100px")
                     ;
                     voter_list
@@ -1289,6 +1320,9 @@ $str = $str."]";
                             d3.select("#v0").select("text").style("fill", "grey");
 
                             d3.selectAll(".handler").style("visibility", "hidden");
+
+                //if it's side page, we don't want the voter's dot to show
+                            if(d3.select(".checkbox").style("visibility") == "visible"){
                             for(var i = 0; i < criteria_num; i++)
                                 for(var j = 1; j <= candidate_num; j++)
                                 {
@@ -1304,12 +1338,13 @@ $str = $str."]";
                                         .attr("fill", function(d) {return color[j - 1];});
 
                                 }
+                            }
 
                             d3.select("body").append("div")
                                 .classed("argument", true)
                                 .style("position", "absolute")
                                 .style("width", "300px")
-                                .style("left", 1020 + "px")
+                                .style("left", 910 + "px")
                                 .style("top", 170 + "px")
                                 .html(argu[d.code]);
 
