@@ -295,7 +295,7 @@ $user_num = $row['user_num'];
                             .attr("height", height)
                             .attr("width", width);
 
-                        var data1 = [{rect:0, name:"Overall"},{rect:1, name:"Academic"},{rect:2, name:"Extracurricular"},{rect:3, name:"Recommendation Letter"},{rect:4, name:"Fit"}];
+                        var data1 = [{rect:0, name:"Overall"},{rect:1, name:"Academic"},{rect:2, name:"Extracurricular"},{rect:3, name:"Recommendation Letter"},{rect:4, name:"Readiness for Engineering"}];
 
                         var title_width = 150;
                         var rect_height = 2, rect_width=400;
