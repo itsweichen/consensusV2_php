@@ -25,8 +25,8 @@ echo $_POST['email'];
 echo $_POST['password'];
 echo $_POST['participate'];
 
-$user_name = "Yuan";
-$user_email = "yuan@ucsd.edu";
+$user_name = "CHIA-YU";
+$user_email = "chiayu@ucsd.edu";
 $password = "1234";
 $participant_num = 5;
 
@@ -307,7 +307,7 @@ mysql_query("insert into score values('','1','".$user_count."','3','3','9.62','A
 mysql_query("insert into score values('','1','".$user_count."','4','3','8.93','A')");
 
 
-mysql_query("insert into score values('','1','".$user_count."','0','1','8.70','When I was judging the candidates I put into perspective the academic status first as well as extra curricular activities that shows the individual's private life and interests. Overall I felt that those two categories were the most important in assessing the potential for the job. Candidate A and C were very strong overall in categories I felt like that would translate to success in the position.      ')");
+mysql_query("insert into score values('','1','".$user_count."','0','1','8.70','When I was judging the candidates I put into perspective the academic status first as well as extra curricular activities that shows the individual's private life and interests. Overall I felt that those two categories were the most important in assessing the potential for the job. Candidate A and C were very strong overall in categories I felt like that would translate to success in the position.')");
 mysql_query("insert into score values('','1','".$user_count."','0','2','8.61','A')");
 mysql_query("insert into score values('','1','".$user_count."','0','3','9.19','A')");
 
