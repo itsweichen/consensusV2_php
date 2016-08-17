@@ -85,7 +85,7 @@ $user_id = $row['id'];
 
 
 
-mysql_query("insert into decision values ('', 'Test1', 'No', '1', '4','3','1','0')");
+mysql_query("insert into decision values ('', 'Test1', 'No', '1', '4','3','1','2')");
 mysql_query("insert into participate values('','1','1','1')");
 
 
