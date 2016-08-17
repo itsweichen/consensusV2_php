@@ -524,7 +524,7 @@ $str = $str."]";
                     var path_max_length = 75;
                     circle
                         .append("path")
-                        .attr("class", "middle-path")
+                        .classed("middle-path", true)
                         .attr("d", function(d){
                             var x = title_width + padding_x + rect_width / 10 * d.score;
                             var y = padding_y * (d.row + 1);
@@ -539,7 +539,7 @@ $str = $str."]";
 
                     circle
                         .append("path")
-                        .attr("class", "upper-path")
+                        .classed("upper-path", true)
                         .attr("d", function(d){
                             var x = title_width + padding_x + rect_width / 10 * d.score;
                             var y = padding_y * (d.row + 1) - d.conflict/2 * path_max_length;
@@ -552,7 +552,7 @@ $str = $str."]";
 
                     circle
                         .append("path")
-                        .attr("class", "lower-path")
+                        .classed("lower-path", true)
                         .attr("d", function(d){
                             var x = title_width + padding_x + rect_width / 10 * d.score;
                             var y = padding_y * (d.row + 1) + d.conflict/2 * path_max_length;
@@ -563,7 +563,7 @@ $str = $str."]";
                         .attr("stroke-width", "2");
                     circle
                         .append("circle")
-                        .attr("class", "middle-dot")
+                        .classed("middle-dot", true)
                         .attr("cx", function(d){ return d.x;})
                         .attr("cy", function(d){ return d.y;})
                         .attr("r", 2)
@@ -675,7 +675,7 @@ $str = $str."]";
                                 .classed("argument", true)
                                 .style("position", "absolute")
                                 .style("width", "300px")
-                                .style("left", 910 + "px")
+                                .style("left", 925 + "px")
                                 .style("top", 170 + "px")
                                 .html(argu[d.code]);
 
@@ -1029,14 +1029,6 @@ $str = $str."]";
                                 .attr("stroke", function(d){
                                     return color[this.parentNode.id[2]-1];
                                 });
-                            d3.select(this).append("text")
-                                .text("Click to see detail")
-                                .attr("x", function(d){
-                                    return d.x + 15;
-                                })
-                                .attr("y", function(d){
-                                    return d.y - 20;
-                                });
 
                             d3.select(this).append("text")
                                 .text(function(d){
@@ -1123,7 +1115,7 @@ $str = $str."]";
                         .append("text")
                         .attr("x", 5)
                         .attr("y", function(d, i){ return candid_num * legend_height + legend_padding * 4 + 32;})
-                        .text("committee and you");
+                        .text("committee & you");
 
 
 
@@ -1344,7 +1336,7 @@ $str = $str."]";
                                 .classed("argument", true)
                                 .style("position", "absolute")
                                 .style("width", "300px")
-                                .style("left", 910 + "px")
+                                .style("left", 925 + "px")
                                 .style("top", 170 + "px")
                                 .html(argu[d.code]);
 
