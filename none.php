@@ -290,37 +290,37 @@ $str = $str."]";
 
                 <tr class="text-center">
                     <td style="width: 40%">Overall</td>
-                    <td id="01" style="width: 20%">Loading</td>
-                    <td id="02" style="width: 20%">Loading</td>
-                    <td id="03" style="width: 20%">Loading</td>
+                    <td id="010" style="width: 20%">Loading</td>
+                    <td id="020" style="width: 20%">Loading</td>
+                    <td id="030" style="width: 20%">Loading</td>
                 </tr>
 
                 <tr class="text-center">
                     <td>Academic</td>
-                    <td id="11">Loading</td>
-                    <td id="12">Loading</td>
-                    <td id="13">Loading</td>
+                    <td id="110">Loading</td>
+                    <td id="120">Loading</td>
+                    <td id="130">Loading</td>
                 </tr>
 
                 <tr class="text-center">
                     <td>Extracurricular</td>
-                    <td id="21">Loading</td>
-                    <td id="22">Loading</td>
-                    <td id="23">Loading</td>
+                    <td id="210">Loading</td>
+                    <td id="220">Loading</td>
+                    <td id="230">Loading</td>
                 </tr>
 
                 <tr class="text-center">
                     <td>Recommendation Letter</td>
-                    <td id="31">Loading</td>
-                    <td id="32">Loading</td>
-                    <td id="33">Loading</td>
+                    <td id="310">Loading</td>
+                    <td id="320">Loading</td>
+                    <td id="330">Loading</td>
                 </tr>
 
                 <tr class="text-center">
                     <td>Fit for the Program</td>
-                    <td id="41">Loading</td>
-                    <td id="42">Loading</td>
-                    <td id="43">Loading</td>
+                    <td id="410">Loading</td>
+                    <td id="420">Loading</td>
+                    <td id="430">Loading</td>
                 </tr>
 
             </table>
@@ -715,7 +715,7 @@ $str = $str."]";
             for(var j = 1; j <=3; j++){
 
 
-                document.getElementById(i+""+j).innerHTML = score[i][j][u_id];
+                document.getElementById(i+""+j+"0").innerHTML = score[i][j][u_id];
                 console.log(score[i][j][u_id]);
             }
         }
