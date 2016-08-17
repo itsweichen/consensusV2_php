@@ -25,8 +25,8 @@ echo $_POST['email'];
 echo $_POST['password'];
 echo $_POST['participate'];
 
-$user_name = "CHIA-YU";
-$user_email = "chiayu@ucsd.edu";
+$user_name = "Katie";
+$user_email = "katie@ucsd.edu";
 $password = "1234";
 $participant_num = 5;
 
@@ -82,7 +82,7 @@ $user_id = $row['id'];
 
 
 
-mysql_query("insert into decision values ('', 'Test1', 'No', '1', '4','3','1','0')");
+mysql_query("insert into decision values ('', 'Test1', 'No', '1', '4','3','1','1')");
 mysql_query("insert into participate values('','1','1','1')");
 
 
